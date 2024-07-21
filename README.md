@@ -1,0 +1,1 @@
+This repo aims to develop a clone site of Airbnb.
