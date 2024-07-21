@@ -1,21 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listings</title>
-</head>
-<body>
-    <h1>Listings</h1>
-    <ul>
+{% extends 'base.html' %}
+
+{% block title %}Listings{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Listings</h1>
+    <div class="mt-4">
+        <a href="{% url 'listing_list' %}" class="btn btn-secondary">Listings</a>
+        <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-success">Sign Up</a>
+        <a href="{% url 'accounts:login' %}" class="btn btn-danger">Sign In</a>
+    </div>
+
+    <div class="row">
         {% for listing in listings %}
-            <li>
-                <h2>{{ listing.title }}</h2>
-                <p>{{ listing.description }}</p>
-                <p>Price: ${{ listing.price }}</p>
-                <img src="{{ listing.image_url }}" alt="{{ listing.title }}">
-            </li>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ listing.image_url }}" alt="{{ listing.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ listing.title }}</h5>
+                        <p class="card-text">{{ listing.description }}</p>
+                        <p class="card-text"><strong>Price: ${{ listing.price }}</strong></p>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}

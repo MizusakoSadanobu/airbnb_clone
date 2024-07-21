@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Listing</title>
-</head>
-<body>
-    <h1>Add a New Listing</h1>
+{% extends 'base.html' %}
+
+{% block title %}Add Listing{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Add a New Listing</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Add Listing</button>
+        <button type="submit" class="btn btn-primary">Add Listing</button>
     </form>
-    <a href="{% url 'listing_list' %}">Back to Listings</a>
-</body>
-</html>
+    <div class="mt-4">
+        <a href="{% url 'listing_list' %}" class="btn btn-secondary">Back to Listings</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Guest Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1>Guest Profile</h1>
+        <p>Welcome, {{ user.username }}! This is your guest profile page.</p>
+    </div>
+</div>
+{% endblock %}
