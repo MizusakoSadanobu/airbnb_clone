@@ -5,13 +5,6 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="mb-4">Listings</h1>
-    <div class="mt-4">
-        <a href="{% url 'listing_list' %}" class="btn btn-secondary">Listings</a>
-        <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
-        <a href="{% url 'accounts:register' %}" class="btn btn-success">Sign Up</a>
-        <a href="{% url 'accounts:login' %}" class="btn btn-danger">Sign In</a>
-    </div>
-
     <div class="row">
         {% for listing in listings %}
             <div class="col-md-4 mb-4">
@@ -21,10 +14,17 @@
                         <h5 class="card-title">{{ listing.title }}</h5>
                         <p class="card-text">{{ listing.description }}</p>
                         <p class="card-text"><strong>Price: ${{ listing.price }}</strong></p>
+                        <p class="card-text"><strong>Owner: {{ listing.owner.username }}</strong></p>
                     </div>
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'listing_list' %}" class="btn btn-secondary">Listings</a>
+        <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-success">Sign Up</a>
+        <a href="{% url 'accounts:login' %}" class="btn btn-danger">Sign In</a>
     </div>
 </div>
 {% endblock %}
