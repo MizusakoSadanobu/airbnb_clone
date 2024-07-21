@@ -22,7 +22,9 @@
     </div>
     <div class="mt-4">
         <a href="{% url 'listing_list' %}" class="btn btn-secondary">Listings</a>
-        <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
+        {% if is_owner %}
+            <a href="{% url 'add_listing' %}" class="btn btn-primary">Add Listing</a>
+        {% endif %}
         <a href="{% url 'accounts:register' %}" class="btn btn-success">Sign Up</a>
         <a href="{% url 'accounts:login' %}" class="btn btn-danger">Sign In</a>
     </div>
