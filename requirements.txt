@@ -1,0 +1,4 @@
+Django>=4.2,<5.0
+djangorestframework>=3.14,<4.0  # API用
+gunicorn>=20.1,<21.0  # WSGIサーバー
+# psycopg2-binary>=2.9,<3.0  # PostgreSQL用（SQLiteを使用する場合は不要）
