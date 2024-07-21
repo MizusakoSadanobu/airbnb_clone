@@ -1,19 +1,35 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm
 from .models import UserProfile
-
-from .forms import UserRegistrationForm
 
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('accounts:login')  # 登録後にログインページへリダイレクト
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            
+            # ユーザータイプの設定
+            user_profile = UserProfile(user=new_user)
+            user_profile.user_type = form.cleaned_data['role']
+            user_profile.save()
+
+            # グループの設定
+            if form.cleaned_data['role'] == 'owner':
+                group = Group.objects.get(name='Owner')
+            else:
+                group = Group.objects.get(name='Guest')
+            new_user.groups.add(group)
+            new_user.save()
+
+            login(request, new_user)
+            return redirect('listing_list')
     else:
         form = UserRegistrationForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -48,3 +64,7 @@ def owner_profile(request):
     if not request.user.userprofile.is_owner:
         return HttpResponseForbidden("You do not have permission to access this page.")
     return render(request, 'accounts/owner_profile.html')
+
+def logout_view(request):
+    auth_logout(request)
+    return redirect('listing_list')
