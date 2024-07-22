@@ -42,10 +42,12 @@ def login_view(request):
             login(request, user)
             try:
                 user_profile = user.userprofile
+                print(f"UserProfile Exists {user_profile.user_type}")
             except UserProfile.DoesNotExist:
+                print("UserProfile Does Not Exist")
                 user_profile = UserProfile.objects.create(user=user)
 
-            if user_profile.is_owner:
+            if user_profile.user_type=="owner":
                 return redirect('accounts:owner_profile')  # オーナープロフィールページにリダイレクト
             else:
                 return redirect('accounts:guest_profile')  # ゲストプロフィールページにリダイレクト
@@ -55,13 +57,13 @@ def login_view(request):
 
 @login_required
 def guest_profile(request):
-    if request.user.userprofile.is_owner:
+    if request.user.userprofile.user_type!="guest":
         return HttpResponseForbidden("You do not have permission to access this page.")
     return render(request, 'accounts/guest_profile.html')
 
 @login_required
 def owner_profile(request):
-    if not request.user.userprofile.is_owner:
+    if request.user.userprofile.user_type!="owner":
         return HttpResponseForbidden("You do not have permission to access this page.")
     return render(request, 'accounts/owner_profile.html')
 
